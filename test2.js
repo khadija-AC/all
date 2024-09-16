@@ -1,6 +1,8 @@
 import { Octokit } from "@octokit/rest";
 import dotenv from 'dotenv';
+
 dotenv.config();
+
 const authToken = process.env.authToken;
 const owner = "khadija-AC";  // Nom de l'utilisateur ou de l'organisation
 
@@ -100,7 +102,8 @@ async function calculateTotalMinutes(owner) {
       console.log(`Total des minutes pour le dépôt ${repoName}: ${repoMinutes.toFixed(2)} minutes`);
     }
 
-    console.log(`Total des minutes utilisées pour tous les dépôts en septembre: ${grandTotalMinutes.toFixed(2)} minutes`);
+    // Sortie formatée pour GitHub Actions
+    console.log(`::set-output name=grandTotalMinutes::${grandTotalMinutes.toFixed(2)}`);
   } catch (error) {
     console.error(`Erreur générale: ${error.message}`);
   }

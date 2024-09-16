@@ -1,35 +1,24 @@
-name: Calculate GitHub Actions Minutes
+name: Calculate Workflow Minutes
 
 on:
     push:
       branches:
         - main
-  
 
 jobs:
-  calculate-minutes:
+  calculate_minutes:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
       - name: Install dependencies
-        run: npm install @octokit/rest axios
+        run: npm install
 
-      - name: Run the minutes calculation script
-        id: calculate
-        run: |
-          node test2.js > result.txt
-          totalMinutes=$(grep 'Total des minutes utilisées' result.txt | awk '{print $NF}')
-          echo "::set-output name=total_minutes::$totalMinutes"
+      - name: Run script
+        id: run_script
+        run: node test2.js
 
-      - name: Output total minutes
-        id: display_minutes
+      - name: Display total minutes
         run: |
-            echo "Total minutes used in September: ${{ steps.calculate.outputs.total_minutes }} minutes"
+          echo "Total minutes used: ${{ steps.run_script.outputs.grandTotalMinutes }}"
