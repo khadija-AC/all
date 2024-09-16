@@ -21,7 +21,8 @@ jobs:
         run: npm install
 
       - name: Run the calculation
-        id: calculate  # Add an ID to this step to reference it
+        env:  # Transmettre le jeton ici
+          authToken: ${{ secrets.GITHUB_TOKEN }}  # Utilise le jeton GitHub ou définissez votre propre token dans les secrets
         run: node calculateMinutes.js
 
     # Declare the output from this job
