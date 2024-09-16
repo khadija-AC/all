@@ -1,5 +1,6 @@
 import { Octokit } from "@octokit/rest";
 import dotenv from 'dotenv';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -77,7 +78,6 @@ async function getWorkflowUsage(owner, repo) {
       // Filtrer les runs dans la plage du mois de septembre
       if (runCreatedAt >= startDate && runCreatedAt <= endDate) {
         const runMinutes = await getJobDurations(run.jobs_url);
-        console.log(`Workflow Run ID: ${run.id}, Duration: ${runMinutes.toFixed(2)} minutes`);
         totalMinutes += runMinutes;
       }
     }
@@ -99,11 +99,10 @@ async function calculateTotalMinutes(owner) {
       const repoName = repo.name;
       const repoMinutes = await getWorkflowUsage(owner, repoName);
       grandTotalMinutes += repoMinutes;
-      console.log(`Total des minutes pour le dépôt ${repoName}: ${repoMinutes.toFixed(2)} minutes`);
     }
 
-    // Sortie formatée pour GitHub Actions
-    console.log(`::set-output name=grandTotalMinutes::${grandTotalMinutes.toFixed(2)}`);
+    // Écrire le total des minutes dans un fichier JSON
+    fs.writeFileSync('output.json', JSON.stringify({ grandTotalMinutes: grandTotalMinutes.toFixed(2) }));
   } catch (error) {
     console.error(`Erreur générale: ${error.message}`);
   }

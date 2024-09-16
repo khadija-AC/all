@@ -1,9 +1,7 @@
 name: Calculate Workflow Minutes
 
 on:
-    push:
-      branches:
-        - main
+  workflow_dispatch:
 
 jobs:
   calculate_minutes:
@@ -17,8 +15,18 @@ jobs:
 
       - name: Run script
         id: run_script
-        run: node test2.js
+        run: |
+          node script.js
+        # Le script écrit maintenant la sortie dans output.json
+
+      - name: Read total minutes from JSON
+        id: read_output
+        run: |
+          TOTAL_MINUTES=$(jq '.grandTotalMinutes' output.json)
+          echo "TOTAL_MINUTES=$TOTAL_MINUTES" >> $GITHUB_ENV
 
       - name: Display total minutes
         run: |
-          echo "Total minutes used: ${{ steps.run_script.outputs.grandTotalMinutes }}"
+          echo "Total minutes used: ${{ env.TOTAL_MINUTES }}"
+
+      
