@@ -23,7 +23,6 @@ jobs:
       - name: Calculate total minutes
         id: calculate-minutes
         run: |
-          node -e '
           import { Octokit } from "@octokit/rest";
           import dotenv from "dotenv";
           dotenv.config();
@@ -45,6 +44,7 @@ jobs:
                 totalDuration += (endTime - startTime) / 60000;
               }
             });
+
             return totalDuration;
           }
 
