@@ -4,7 +4,7 @@ on:
     push:
       branches:
         - main
-        
+
 jobs:
   calculate:
     runs-on: ubuntu-latest
@@ -25,7 +25,7 @@ jobs:
 
       - name: Print output
         if: ${{ env.GRAND_TOTAL_MINUTES > 2000.00 }}
-        run: echo "hi"
+        run: echo "hi zin"
 
       - name: Print output
         if: ${{ env.GRAND_TOTAL_MINUTES < 2000.00 }}
