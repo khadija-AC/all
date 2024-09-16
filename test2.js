@@ -1,5 +1,6 @@
 import { Octokit } from "@octokit/rest";
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 const authToken = process.env.authToken;
 const owner = "khadija-AC";  // Nom de l'utilisateur ou de l'organisation
 
