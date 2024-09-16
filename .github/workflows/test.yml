@@ -19,7 +19,7 @@ jobs:
           node script.js
         # Le script écrit maintenant la sortie dans output.json
 
-      - name: Read total minutes from JSON
+      - name: Read total minutes from JSON m,m,m
         id: read_output
         run: |
           TOTAL_MINUTES=$(jq '.grandTotalMinutes' output.json)
