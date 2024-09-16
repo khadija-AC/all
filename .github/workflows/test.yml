@@ -1,7 +1,9 @@
 name: Calculate Workflow Minutes
 
 on:
-  workflow_dispatch:
+        push:
+          branches:
+            - main
 
 jobs:
   calculate_minutes:
