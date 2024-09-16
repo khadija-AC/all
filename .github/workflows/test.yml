@@ -18,7 +18,7 @@ jobs:
       - name: Run script
         id: run_script
         run: |
-          node script.js
+          node test2.js
         # Le script écrit maintenant la sortie dans output.json
 
       - name: Read total minutes from JSON m,m,m
