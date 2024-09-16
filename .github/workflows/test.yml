@@ -1,9 +1,10 @@
 name: Calculate Workflow Minutes
 
 on:
-        push:
-          branches:
-            - main
+  pull_request:
+    branches:
+      - '**'
+
 
 jobs:
   calculate_minutes:
