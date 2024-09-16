@@ -1,11 +1,11 @@
 import { Octokit } from "@octokit/rest";
 import dotenv from "dotenv";
+import { execSync } from "child_process";  // For setting output in GitHub Actions
 
 dotenv.config();
 const authToken = process.env.authToken;
 const owner = "khadija-AC";
 
-// Ensure that you use UTC date strings
 const startDate = Date.UTC(2024, 8, 1, 0, 0, 0);  // September 1, 2024 00:00:00 UTC
 const endDate = Date.UTC(2024, 8, 30, 23, 59, 59);  // September 30, 2024 23:59:59 UTC
 
@@ -20,7 +20,6 @@ async function getJobDurations(jobsUrl) {
     const startTime = Date.parse(job.started_at);  // Parse the job start time as UTC
     const endTime = Date.parse(job.completed_at);  // Parse the job end time as UTC
 
-    // Ensure the comparison is made using UTC timestamps
     if (startTime >= startDate && endTime <= endDate) {
       totalDuration += (endTime - startTime) / 60000;  // Convert to minutes
     }
@@ -55,10 +54,11 @@ async function calculateTotalMinutes(owner) {
   }
 
   console.log(`Total Minutes: ${grandTotalMinutes.toFixed(2)}`);
-  return grandTotalMinutes.toFixed(2);
+
+  // Set the output for GitHub Actions to use
+  execSync(`echo "::set-output name=grandTotalMinutes::${grandTotalMinutes.toFixed(2)}"`);
 }
 
 (async () => {
-  const grandTotalMinutes = await calculateTotalMinutes(owner);
-  process.env.GRAND_TOTAL_MINUTES = grandTotalMinutes;
+  await calculateTotalMinutes(owner);
 })();
