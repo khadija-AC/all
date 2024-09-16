@@ -21,13 +21,17 @@ jobs:
         run: npm install
 
       - name: Run the calculation
-        id: calculate  # Add an ID to reference the job output
+        id: calculate  # Add an ID to this step to reference it
         run: node calculateMinutes.js
+
+    # Declare the output from this job
+    outputs:
+      grandTotalMinutes: ${{ steps.calculate.outputs.grandTotalMinutes }}
 
   build_on_github_actions:
     runs-on: ubuntu-latest
     needs: calculate
-    if: ${{ steps.calculate.outputs.grandTotalMinutes < 2000.00 }}
+    if: ${{ needs.calculate.outputs.grandTotalMinutes < 2000.00 }}  # Correctly reference the output from the calculate job
     steps:
       - name: Build on GitHub Actions
         run: echo "Building on GitHub Actions runner"
@@ -35,7 +39,7 @@ jobs:
   build_on_self_hosted:
     runs-on: self-hosted
     needs: calculate
-    if: ${{ steps.calculate.outputs.grandTotalMinutes >= 2000.00 }}
+    if: ${{ needs.calculate.outputs.grandTotalMinutes >= 2000.00 }}  # Correctly reference the output
     steps:
       - name: Build on self-hosted runner
         run: echo "Building on self-hosted runner"
