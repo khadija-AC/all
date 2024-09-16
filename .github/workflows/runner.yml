@@ -31,7 +31,7 @@ jobs:
   build_on_github_actions:
     runs-on: ubuntu-latest
     needs: calculate
-    if: ${{ needs.calculate.outputs.grandTotalMinutes < 2000.00 }}  # Correctly reference the output from the calculate job
+    if: ${{ needs.calculate.outputs.grandTotalMinutes >= 2000.00 }}  # Correctly reference the output from the calculate job
     steps:
       - name: Build on GitHub Actions
         run: echo "Building on GitHub Actions runner"
@@ -39,7 +39,7 @@ jobs:
   build_on_self_hosted:
     runs-on: self-hosted
     needs: calculate
-    if: ${{ needs.calculate.outputs.grandTotalMinutes >= 2000.00 }}  # Correctly reference the output
+    if: ${{ needs.calculate.outputs.grandTotalMinutes < 2000.00 }}  # Correctly reference the output
     steps:
       - name: Build on self-hosted runner
         run: echo "Building on self-hosted runner"
